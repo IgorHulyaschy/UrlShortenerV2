@@ -1,0 +1,12 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+        "linebreak-style":"off",
+        "no-multiple-empty-lines": "off"
+    },
+    "rulesDirectory": []
+}

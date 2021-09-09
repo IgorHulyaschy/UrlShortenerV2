@@ -1,0 +1,41 @@
+post:
+  summary: Create Short URL
+  description: Create unique short url
+  tags:
+    - Url
+  security:
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            longUrl: 
+              type: string
+              description: URL of your site
+  responses:
+    "201":
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              shortUrl:
+                type: string
+                description: short URL to redirect to your site
+    "200":
+      content: 
+        application/json:
+          schema:
+            type: object
+            properties:
+              url:
+                type: object
+                properties:
+                  shortUrl: 
+                    type: string
+                    description: short URL to redirect to your site
+    400:
+      $ref: '../errors/400.error.yml'
+    500:
+      $ref: '../errors/500.error.yml'

@@ -1,0 +1,19 @@
+openapi: 3.0.0
+info:
+  title: Hood
+  description: Made in China
+  version: 0.0.1
+  host: 
+  schemes:
+  - http
+  - https
+tags:
+  - name: Url
+paths:
+  /api/url/shorten:
+    $ref: methods/createUrl.yml
+  /:urlCode:
+    $ref: methods/getUrl.yml
+  
+servers:
+  - url: /

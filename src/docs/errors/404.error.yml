@@ -1,0 +1,10 @@
+  
+content: 
+  aplication/json: 
+    description: Not Found
+    schema: 
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message

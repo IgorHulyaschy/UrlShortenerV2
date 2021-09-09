@@ -1,0 +1,11 @@
+get:
+  summary: Redirect to your page
+  description: Redirect to your long URL
+  parameters:
+    - in: path
+      name: urlCode
+      type: string
+      required: true
+  tags:
+    - Url
+
