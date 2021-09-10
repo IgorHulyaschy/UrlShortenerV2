@@ -29,6 +29,9 @@
         "no-unused-vars":"off",
         "lines-between-class-members":"off",
         "no-else-return":"off",
-        "camelcase":"off"
+        "camelcase":"off",
+        "no-restricted-syntax":"off",
+        "no-await-in-loop":"off",
+        "no-return-await":"off"
     }
 }
