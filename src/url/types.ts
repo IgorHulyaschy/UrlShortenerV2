@@ -11,5 +11,7 @@ export interface IDatabase {
   long_url: string;
   short_url: string;
 }
+
 export type cacheUrl = {responseUrl: {longUrl: string}};
+
 export type redisUrl = {data: string};

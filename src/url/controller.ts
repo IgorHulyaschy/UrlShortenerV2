@@ -25,7 +25,10 @@ export class Controller {
         return (ctx.body = await UrlService.addUrl(longUrl));
       } catch (err) {
         console.log(err);
-        ctx.status = 500;
+        ctx.status = 400;
+        ctx.body = {
+          message: 'Something went wrong',
+        };
       }
     } else {
       ctx.status = 400;
@@ -51,14 +54,10 @@ export class Controller {
         });
       }
     } catch (err) {
-      ctx.status = 500;
+      ctx.status = 400;
       return (ctx.body = {
-        message: 'Server Error',
+        message: 'Something went wrong',
       });
     }
-  }
-
-  static test(ctx: AppContext) {
-    ctx.redirect('https://www.youtube.com/watch?v=oaJq1mQ3dFI');
   }
 }

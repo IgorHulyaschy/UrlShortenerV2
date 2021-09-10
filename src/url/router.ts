@@ -6,6 +6,5 @@ const router = Router();
 
 router.post('/api/url/shorten', Controller.createUrl);
 router.get('/:urlCode', cache(300), Controller.getUrl);
-router.get('/test/test', Controller.test);
 
 export default router;
