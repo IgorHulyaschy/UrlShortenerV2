@@ -16,7 +16,6 @@ export const setAsync = promisify(client.setex).bind(client);
 export const getAsync = promisify(client.get).bind(client);
 
 const app = new Koa();
-
 app.use(serve('src/docs'));
 app.use(
   koaSwagger({
