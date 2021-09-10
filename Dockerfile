@@ -1,13 +1,5 @@
-FROM node:14
+FROM postgres
 
-WORKDIR /app
+ENV POSTGRES_DB my_database
 
-COPY package*.json ./
-
-RUN npm install
-
-COPY . /app
-
-EXPOSE $SERVER_PORT
-
-CMD ["npm", "start"]
+COPY 1.UrlTable.sql /docker-entrypoint-initdb.d/
