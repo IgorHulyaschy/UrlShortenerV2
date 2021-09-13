@@ -1,7 +1,5 @@
-const request = require('supertest');
-const Koa = require('koa');
-const app = require('../app');
-
+import request from 'supertest';
+import app from '../app';
 
 beforeAll(async () => {
   jest.setTimeout(10000);
@@ -16,51 +14,57 @@ describe('GET - docs', () => {
   });
 });
 
-describe('POST - /api/url/shorten', () => {
-  it('should return already exsisting short URL', async () => {
-    const bodyReq = [
-      {
-        longUrl: 'https://www.google.com/',
-      },
-      {
-        longUrl: 'https://github.com/IgorHulyaschy',
-      },
-      {
-        longUrl: 'https://www.moooi.com/en/a-life-extraordinary',
-      },
-    ];
-    for (const body of bodyReq) {
-      const response = await request(app.callback()).post('/api/url/shorten').send(body);
-      expect(response.body).toStrictEqual({
-        url: {
-        },
-      });
-    }
+const refs: Array<string> = [
+  'https://www.google.com',
+  'https://github.com/IgorHulyaschy',
+  'https://www.moooi.com/en/a-life-extraordinary',
+  'https://www.youtube.com/',
+  'https://stackoverflow.com/',
+  'https://music.youtube.com/',
+  'https://userway.org/',
+];
+function getRandomUrl(arr: Array<string>, max: number) {
+  const index = Math.floor(Math.random() * max);
+  return arr[index];
+}
+const longUrl = getRandomUrl(refs, 6);
+let shortUrl: string = '';
+describe('POST - api/url/shorten', () => {
+  it('should return create new shortUrl', async () => {
+    const response = await request(app.callback()).post('/api/url/shorten').send({ longUrl });
+    expect(response.status).toBe(201);
+    expect(response.body.shortUrl).toBeDefined();
+    shortUrl = response.body.shortUrl;
   });
-  // it('should return error - 400', async () => {
-  //   const url = {
-  //     longUrl: '123456',
-  //   };
-  //   const response = await request(server).post('/api/url/shorten').send(url);
-  //   expect(response.body).toStrictEqual({
-  //     message: 'Invalid long URL',
-  //   });
-  // });
-  // it('should return error - 500', async () => {
-  //   const url = {
-  //     longUrl: 1,
-  //   };
-  //   await request(server).post('/api/url/shorten').send(url).expect(500);
-  // });
+  it('should return already existing longUrl', async () => {
+    const response = await request(app.callback()).post('/api/url/shorten').send({ longUrl });
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual({
+      url: {
+        shortUrl: shortUrl,
+      },
+    });
+  });
+  it('should return status error - 400', async () => {
+    const response = await request(app.callback()).post('/api/url/shorten').send({ body: 123123 });
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      message: 'Invalid long URL',
+    });
+  });
 });
 
-// describe('GET - /:urlCode', () => {
-//   it('should redirect to longUrl', async () => {
-//     const urlCode = '8XTrYwxuT';
-//     await request(server).get(`/${urlCode}`).expect(302);
-//   });
-//   it('should return error - 500', async () => {
-//     const urlCode = '8XTrY';
-//     await request(server).get(`/${urlCode}`).expect(500);
-//   });
-// });
+describe('GET - /:urlCode', () => {
+  it('should return longUrl giving shortUrl', async () => {
+    const [urlCode] = shortUrl.split('http://localhost:3000').splice(1, 1);
+    const response = await request(app.callback()).get(`${urlCode}`);
+    expect(response.status).toBe(302);
+  });
+  it('should return status error - 404', async () => {
+    const urlCode = 'qweqwqwe';
+    const response = await request(app.callback()).get(`/${urlCode}`);
+    expect(response.body).toEqual({
+      message: 'This url does not exist',
+    });
+  });
+});
