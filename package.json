@@ -7,7 +7,7 @@
     "test": "jest",
     "eslint": "eslint --init",
     "tslint": "tslint --init",
-    "serve": "nodemon src/server.ts",
+    "serve": "set NODE_ENV=development&& nodemon src/server.ts",
     "start": "node src/server.ts",
     "tsc": "tsc --init",
     "eslint:fix": "eslint --fix --ext .ts ",
@@ -18,6 +18,7 @@
   "dependencies": {
     "config": "^3.3.6",
     "dotenv": "^10.0.0",
+    "jest": "^27.1.1",
     "koa": "^2.13.1",
     "koa-body": "^4.2.0",
     "koa-joi-router": "^8.0.0",
@@ -30,6 +31,7 @@
     "redis": "^3.1.2",
     "shortid": "^2.2.16",
     "supertest": "^6.1.6",
+    "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.2",
     "util": "^0.12.4",
@@ -57,12 +59,27 @@
     "tslint": "^6.1.3"
   },
   "jest": {
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/jspm_packages"
+    "verbose": true,
+    "modulePathIgnorePatterns": [
+      "<rootDir>/node_modules/"
     ],
     "roots": [
-      "./src/"
+      "<rootDir>/src/"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
     ]
   }
 }
